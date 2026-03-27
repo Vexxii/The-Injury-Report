@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:nflreadr.nflverse.com)",
+      "WebFetch(domain:github.com)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(taskkill //F //IM node.exe)"
+    ]
+  }
+}
