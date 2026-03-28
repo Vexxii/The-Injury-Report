@@ -18,32 +18,33 @@ export default function PerformanceChart({
 
   function barColor(value: number): string {
     const pct = value / preInjuryPPG;
-    if (pct >= 0.85) return "bg-green-300";
-    if (pct >= 0.7) return "bg-amber-300";
-    return "bg-red-300";
+    if (pct >= 0.85) return "bg-green opacity-70";
+    if (pct >= 0.7) return "bg-amber opacity-70";
+    return "bg-red opacity-70";
   }
 
   return (
     <div className="mt-2">
-      <p className="text-xs text-gray-400 mb-1">
-        Fantasy PPG: pre-injury → post-return
+      <p className="font-mono text-[9px] text-text-muted mb-1">
+        pre-injury &rarr; post-return PPG
       </p>
       <div className="flex items-end gap-0.5 h-10">
         {preInjuryWeeklyPPG.map((val, i) => (
           <div
             key={`pre-${i}`}
-            className="w-5 bg-gray-300 rounded-t-sm"
-            style={{ height: `${barHeight(val)}px` }}
+            className="w-[18px] rounded-t-sm"
+            style={{ height: `${barHeight(val)}px`, background: '#404048' }}
             title={`Pre-injury Wk: ${val}`}
           />
         ))}
-        <div className="w-2 flex items-center text-red-500 text-xs font-bold mx-0.5">
-          ⚡
-        </div>
+        <div
+          className="w-0.5 mx-0.5 opacity-50"
+          style={{ height: '100%', background: 'var(--accent)' }}
+        />
         {postReturnPPG.slice(0, 4).map((val, i) => (
           <div
             key={`post-${i}`}
-            className={`w-5 rounded-t-sm ${barColor(val)}`}
+            className={`w-[18px] rounded-t-sm ${barColor(val)}`}
             style={{ height: `${barHeight(val)}px` }}
             title={`Week +${i + 1}: ${val}`}
           />

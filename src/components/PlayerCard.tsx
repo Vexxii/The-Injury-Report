@@ -55,7 +55,16 @@ function getAvgRecoveryWeeks(comparables: ScoredComparable[]): string {
   const avg = Math.round(
     recoveryWeeks.reduce((s, v) => s + v, 0) / recoveryWeeks.length
   );
-  return `Week ${avg}`;
+  return `Wk ${avg}`;
+}
+
+function dipColor(dip: string): string {
+  if (dip === "N/A") return "text-text-muted";
+  const val = parseInt(dip);
+  if (isNaN(val)) return "text-text-muted";
+  if (val < -30) return "text-red";
+  if (val < 0) return "text-amber";
+  return "text-green";
 }
 
 export default function PlayerCard({
@@ -75,56 +84,48 @@ export default function PlayerCard({
       : injury.gamesMissed;
 
   return (
-    <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-xl p-5">
+    <div className="bg-surface border border-border-custom rounded-xl p-5">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-4">
         <div>
-          <h2 className="text-xl font-bold">{player.name}</h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <h2 className="font-display text-[22px]">{player.name}</h2>
+          <p className="font-mono text-xs text-text-muted mt-1">
             {player.position} · {player.team} · Age{" "}
             {injury.seasonYear - new Date(player.birthDate).getFullYear()}
           </p>
         </div>
-        <span className="self-start bg-red-50 border border-red-200 text-red-700 px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap">
+        <span className="self-start bg-red-bg border border-red-border text-red font-mono text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">
           {formatBodyPart(injury.bodyPart)} · {injury.reportStatus}
         </span>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="bg-gray-50 rounded-lg p-3 text-center">
-          <p className="text-xs text-gray-500 uppercase tracking-wide">
-            Typical Miss Time
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="bg-surface-elevated rounded-lg p-3 text-center">
+          <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-text-muted">
+            Miss Time
           </p>
-          <p className="text-lg font-bold mt-1">
-            {avgMissed} {avgMissed === 1 ? "game" : "games"}
+          <p className="font-mono text-lg font-bold mt-1">
+            {avgMissed}
           </p>
         </div>
-        <div className="bg-gray-50 rounded-lg p-3 text-center">
-          <p className="text-xs text-gray-500 uppercase tracking-wide">
+        <div className="bg-surface-elevated rounded-lg p-3 text-center">
+          <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-text-muted">
             Comparables
           </p>
-          <p className="text-lg font-bold mt-1">{comparables.length}</p>
+          <p className="font-mono text-lg font-bold mt-1">{comparables.length}</p>
         </div>
-        <div className="bg-gray-50 rounded-lg p-3 text-center">
-          <p className="text-xs text-gray-500 uppercase tracking-wide">
-            Post-Injury (Wk 1-2)
+        <div className="bg-surface-elevated rounded-lg p-3 text-center">
+          <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-text-muted">
+            Post-Inj (Wk 1-2)
           </p>
-          <p
-            className={`text-lg font-bold mt-1 ${
-              avgDip.startsWith("-") && parseInt(avgDip) < -30
-                ? "text-red-600"
-                : avgDip.startsWith("-")
-                  ? "text-amber-600"
-                  : "text-green-600"
-            }`}
-          >
+          <p className={`font-mono text-lg font-bold mt-1 ${dipColor(avgDip)}`}>
             {avgDip}
           </p>
         </div>
-        <div className="bg-gray-50 rounded-lg p-3 text-center">
-          <p className="text-xs text-gray-500 uppercase tracking-wide">
-            Full Recovery By
+        <div className="bg-surface-elevated rounded-lg p-3 text-center">
+          <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-text-muted">
+            Recovery By
           </p>
-          <p className="text-lg font-bold mt-1 text-green-600">{recoveryBy}</p>
+          <p className="font-mono text-lg font-bold mt-1 text-green">{recoveryBy}</p>
         </div>
       </div>
     </div>

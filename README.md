@@ -49,6 +49,10 @@ This fetches fresh data from nflverse and writes to `src/data/`. Takes about 12 
 - Vitest (31 tests)
 - Vercel free tier for deployment
 
+## Design
+
+Dark theme by default with light mode support. See [DESIGN.md](DESIGN.md) for the full design system: typography (Instrument Serif, DM Sans, JetBrains Mono), color palette, spacing, and component specs.
+
 ## Comparison Algorithm
 
 Each comparable is scored 0-100% across five dimensions:

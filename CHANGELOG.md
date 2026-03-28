@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0.0] - 2026-03-28
+
+### Added
+- Dark theme as default, with light mode support via CSS custom properties
+- Design system documentation (DESIGN.md): typography, colors, spacing, motion, verdict box treatment, and anti-patterns
+- Instrument Serif font for display/hero text (editorial authority)
+- DM Sans for body text, JetBrains Mono for data labels and stats
+- Verdict box entrance animation (fade + slide, 300ms)
+- Comparable card hover lift effect
+
+### Changed
+- Moved verdict box above player card: answer first, evidence second (verdict-first layout)
+- Replaced Geist Sans/Mono with Instrument Serif, DM Sans, and JetBrains Mono
+- Background from light gray (#F9FAFB) to warm near-black (#111113)
+- Accent color from gray-900 to burnt orange (#E8572A), used sparingly on logo and search button
+- Verdict box redesigned with 4px left border, tinted background, oversized monospace verdict word
+- Search bar styled with dark surface, orange submit button
+- Injury pills, match badges, and stat boxes updated for dark palette
+- All components use CSS custom properties for theme switching
+
+### Notes
+- Dark mode is the default. No system preference detection in MVP, just a manual toggle path via `data-theme="light"` on `<html>`.
+- Design system based on competitive research: FantasyPros, Draft Sharks, SIC Score, Sleeper. Deliberate departures: dark default, serif display font, burnt orange accent.
+
 ## [1.1.0.0] - 2026-03-28
 
 ### Added

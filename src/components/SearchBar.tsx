@@ -47,7 +47,7 @@ export default function SearchBar({ players }: SearchBarProps) {
 
   return (
     <div ref={containerRef} className="relative w-full max-w-xl mx-auto">
-      <form action="/" method="GET" className="flex gap-2">
+      <form action="/" method="GET" className="flex gap-0">
         <input
           ref={inputRef}
           type="text"
@@ -56,33 +56,32 @@ export default function SearchBar({ players }: SearchBarProps) {
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
           placeholder="Search player... e.g. Derrick Henry"
-          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+          className="flex-1 px-4 py-3 bg-surface border border-border-custom rounded-l-lg text-base text-foreground placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
           autoComplete="off"
         />
         <button
           type="submit"
-          className="px-6 py-3 bg-gray-900 text-white rounded-lg text-base font-medium hover:bg-gray-800 transition-colors"
+          className="px-6 py-3 bg-accent text-white rounded-r-lg text-base font-semibold hover:bg-accent-hover transition-colors"
         >
           Search
         </button>
       </form>
 
       {showSuggestions && (
-        <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-64 overflow-auto">
+        <ul className="absolute z-10 w-full mt-1 bg-surface border border-border-custom rounded-lg shadow-lg max-h-64 overflow-auto">
           {suggestions.map((player) => (
             <li key={player.id}>
               <button
                 type="button"
-                className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center justify-between"
+                className="w-full px-4 py-2.5 text-left hover:bg-surface-elevated flex items-center justify-between transition-colors"
                 onClick={() => {
                   setQuery(player.name);
                   setShowSuggestions(false);
-                  // Submit the form
                   window.location.href = `/?player=${encodeURIComponent(player.name)}`;
                 }}
               >
-                <span className="font-medium">{player.name}</span>
-                <span className="text-sm text-gray-500">
+                <span className="font-medium text-foreground">{player.name}</span>
+                <span className="text-sm font-mono text-text-muted">
                   {player.position} · {player.team}
                 </span>
               </button>

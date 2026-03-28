@@ -14,13 +14,17 @@ Fantasy football injury comparables engine. Search any NFL player + injury, get 
 ```
 src/
   app/page.tsx          — Main server component (search, comparison, render)
-  app/layout.tsx        — Root layout
+  app/layout.tsx        — Root layout (Instrument Serif, DM Sans, JetBrains Mono)
+  app/globals.css       — CSS custom properties (dark/light theme)
   components/           — UI components
     SearchBar.tsx        — Client component, autocomplete search
     PlayerCard.tsx       — Player info + injury badge + headline stats
     ComparableCard.tsx   — Single comparable with performance chart
-    VerdictBox.tsx       — Hold/Monitor/Sell recommendation
+    VerdictBox.tsx       — Hold/Monitor/Sell recommendation (verdict-first layout)
     PerformanceChart.tsx — Mini bar chart (pre vs post injury)
+  fonts/
+    InstrumentSerif-Regular.ttf
+    InstrumentSerif-Italic.ttf
   lib/
     types.ts             — Core TypeScript interfaces
     data.ts              — JSON data loading with module-level cache
@@ -37,6 +41,7 @@ src/
 scripts/
   seed.py                — Python script to fetch nflverse data and generate JSON
   generate-gamelogs.ts   — Legacy TypeScript seed script (synthetic data)
+DESIGN.md                — Design system (colors, typography, spacing, motion)
 ```
 
 ## Commands
@@ -68,3 +73,9 @@ Verdict thresholds (median weeks 1-2 recovery % of baseline):
 - MONITOR: 70-85%
 - CONSIDER_SELLING: <70%
 - Minimum 5 valid comparables required
+
+## Design System
+Always read DESIGN.md before making any visual or UI decisions.
+All font choices, colors, spacing, and aesthetic direction are defined there.
+Do not deviate without explicit user approval.
+In QA mode, flag any code that doesn't match DESIGN.md.

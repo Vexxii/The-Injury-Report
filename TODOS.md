@@ -16,17 +16,9 @@
 
 ## Verdict-First Layout
 
-**What:** Move VerdictBox above PlayerCard so users see the HOLD/MONITOR/CONSIDER SELLING verdict immediately after searching, before the stat grid.
+**Completed:** v1.2.0.0 (2026-03-28)
 
-**Why:** User research (observation session, 2026-03-27) confirmed that the statistical decision is the #1 value prop. Currently the verdict is buried below the player stats card, requiring a scroll to find the answer.
-
-**Pros:** Puts the core value prop front and center. Matches user mental model: "give me the answer first, then show me the evidence."
-
-**Cons:** Minor layout change. The stat grid provides context that some users may want before seeing the verdict.
-
-**Context:** Currently the results page renders: SearchBar → InjuryPills → PlayerCard → VerdictBox → ComparableCards. The proposed order: SearchBar → InjuryPills → VerdictBox → PlayerCard → ComparableCards. Change is in `src/app/page.tsx`, swapping two component positions.
-
-**Blocked by:** Nothing. Ready to build.
+Moved VerdictBox above PlayerCard in `src/app/page.tsx`. Results page now renders: SearchBar → InjuryPills → VerdictBox → PlayerCard → ComparableCards. Answer first, evidence second.
 
 ## Shareable Results
 
@@ -44,17 +36,9 @@
 
 ## Design System Documentation (DESIGN.md)
 
-**What:** Create a DESIGN.md documenting the app's visual patterns: color palette, typography, spacing, component hierarchy, and interaction patterns.
+**Completed:** v1.2.0.0 (2026-03-28)
 
-**Why:** The app currently has consistent design patterns (Geist fonts, gray-50/900 palette, rounded-xl cards) but they're implicit in the code. As the app grows, undocumented patterns drift.
-
-**Pros:** Prevents design drift across features. Makes onboarding faster for contributors. Enables design reviews against a spec.
-
-**Cons:** Takes time to write. May over-constrain early-stage iteration.
-
-**Context:** Current patterns: Geist Sans + Geist Mono via next/font/google, bg-gray-50 base, gray-900 text, rounded-xl primary cards, rounded-lg inner elements, rounded-full pills/badges, red-50/red-700 for injury badges, green/amber/red for verdict and performance colors.
-
-**Blocked by:** Nothing. Lower priority than feature work.
+Created DESIGN.md with full design system: Industrial/Utilitarian aesthetic, dark theme default (#111113), Instrument Serif (display), DM Sans (body), JetBrains Mono (data), burnt orange accent (#E8572A), verdict box treatment with 4px left border, spacing scale, motion specs, and anti-patterns. Based on competitive research (FantasyPros, Draft Sharks, SIC Score, Sleeper) and user observation findings.
 
 ## Real Data Pipeline (nflverse)
 

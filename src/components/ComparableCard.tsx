@@ -17,32 +17,32 @@ export default function ComparableCard({
     injury.seasonYear - new Date(player.birthDate).getFullYear();
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4">
+    <div className="bg-surface border border-border-custom rounded-lg p-4 transition-all duration-150 hover:-translate-y-px hover:border-text-muted">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-2 mb-2">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-400 font-mono">#{rank}</span>
-            <h3 className="font-semibold text-sm truncate">{player.name}</h3>
+            <span className="font-mono text-xs text-text-muted">#{rank}</span>
+            <h3 className="font-display text-sm">{player.name}</h3>
           </div>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="font-mono text-[11px] text-text-muted mt-0.5">
             {player.position} · {player.team} · Age {age} ·{" "}
-            {injury.seasonYear} Week {injury.weekNumber}
+            {injury.seasonYear} Wk {injury.weekNumber}
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-xs text-gray-500">
+          <span className="font-mono text-xs text-text-muted">
             {gamesMissed} {gamesMissed === 1 ? "game" : "games"} missed
           </span>
           <span
-            className={`text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap ${
+            className={`font-mono text-xs font-bold px-2.5 py-0.5 rounded-full whitespace-nowrap border ${
               matchScore >= 70
-                ? "bg-green-100 text-green-700"
+                ? "bg-green-bg text-green border-green-border"
                 : matchScore >= 50
-                  ? "bg-amber-100 text-amber-700"
-                  : "bg-gray-100 text-gray-600"
+                  ? "bg-amber-bg text-amber border-amber-border"
+                  : "bg-surface-elevated text-text-muted border-border-custom"
             }`}
           >
-            {matchScore}% match
+            {matchScore}%
           </span>
         </div>
       </div>
