@@ -27,12 +27,16 @@ src/
     comparison.ts        — Comparison algorithm (pure function)
     verdict.ts           — Verdict logic (pure function)
   data/
-    players.json         — 25 NFL players
-    injuries.json        — 35 injury records
-    gamelogs.json        — ~2000 weekly game logs
+    players.json         — 1,156 NFL players (real nflverse data)
+    injuries.json        — 3,703 injury events (real, deduplicated)
+    gamelogs.json        — ~47,000 weekly game logs (real PPR stats)
   __tests__/
     comparison.test.ts   — Comparison algorithm tests
+    data.test.ts         — Data loading and search tests
     verdict.test.ts      — Verdict logic tests
+scripts/
+  seed.py                — Python script to fetch nflverse data and generate JSON
+  generate-gamelogs.ts   — Legacy TypeScript seed script (synthetic data)
 ```
 
 ## Commands
@@ -48,7 +52,7 @@ Uses Vitest with jsdom environment. Test files in `src/__tests__/`.
 
 ## Data
 
-Seed data is pre-generated JSON in `src/data/`. Data is read via `fs.readFileSync` in server components with module-level caching.
+Real NFL data (2015-2024) sourced from nflverse via `scripts/seed.py`. Run `python scripts/seed.py` to regenerate. Data is read via `fs.readFileSync` in server components with module-level caching.
 
 ## Algorithm
 

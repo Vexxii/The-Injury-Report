@@ -144,12 +144,14 @@ export default async function Home({ searchParams }: PageProps) {
         <div className="mt-8 space-y-4">
           {/* Injury selector if multiple injuries */}
           {playerInjuries.length > 1 && (
-            <div className="flex gap-2 flex-wrap">
+            <nav aria-label="Injury history" className="flex gap-2 flex-wrap">
               {playerInjuries.map((inj, i) => (
                 <a
                   key={inj.id}
                   href={`/?player=${encodeURIComponent(matchedPlayer.name)}&injury=${i}`}
-                  className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
+                  aria-label={`${inj.bodyPart} injury, ${inj.seasonYear} week ${inj.weekNumber}${i === injuryIndex ? " (selected)" : ""}`}
+                  aria-current={i === injuryIndex ? "true" : undefined}
+                  className={`px-3 py-2 min-h-[44px] flex items-center rounded-full text-sm border transition-colors ${
                     i === injuryIndex
                       ? "bg-gray-900 text-white border-gray-900"
                       : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
@@ -158,7 +160,7 @@ export default async function Home({ searchParams }: PageProps) {
                   {inj.bodyPart} · {inj.seasonYear} Wk {inj.weekNumber}
                 </a>
               ))}
-            </div>
+            </nav>
           )}
 
           <PlayerCard

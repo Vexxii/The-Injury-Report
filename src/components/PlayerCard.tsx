@@ -7,18 +7,19 @@ interface PlayerCardProps {
 }
 
 const BODY_PART_LABELS: Record<string, string> = {
-  hamstring: "Hamstring",
-  knee_acl: "Knee (ACL)",
-  knee_mcl: "Knee (MCL)",
+  knee: "Knee",
   ankle: "Ankle",
+  hamstring: "Hamstring",
   shoulder: "Shoulder",
   concussion: "Concussion",
+  foot: "Foot",
+  groin: "Groin",
+  back: "Back",
   calf: "Calf",
   quad: "Quad",
-  groin: "Groin",
-  foot: "Foot",
-  back: "Back",
-  hand_wrist: "Hand/Wrist",
+  hip: "Hip",
+  neck: "Neck",
+  other: "Other",
 };
 
 function formatBodyPart(bodyPart: string): string {
@@ -75,7 +76,7 @@ export default function PlayerCard({
 
   return (
     <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-xl p-5">
-      <div className="flex justify-between items-start mb-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-4">
         <div>
           <h2 className="text-xl font-bold">{player.name}</h2>
           <p className="text-sm text-gray-500 mt-1">
@@ -83,7 +84,7 @@ export default function PlayerCard({
             {injury.seasonYear - new Date(player.birthDate).getFullYear()}
           </p>
         </div>
-        <span className="bg-red-50 border border-red-200 text-red-700 px-3 py-1 rounded-full text-sm font-semibold">
+        <span className="self-start bg-red-50 border border-red-200 text-red-700 px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap">
           {formatBodyPart(injury.bodyPart)} · {injury.reportStatus}
         </span>
       </div>

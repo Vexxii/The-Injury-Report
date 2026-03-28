@@ -71,13 +71,13 @@ function getCareerSnaps(
     .reduce((sum, gl) => sum + gl.snaps, 0);
 }
 
-function getPreInjuryPPG(
+function getPreInjuryGames(
   playerId: string,
   seasonYear: number,
   weekNumber: number,
   gameLogs: GameLog[]
-): number {
-  const priorGames = gameLogs
+): GameLog[] {
+  return gameLogs
     .filter(
       (gl) =>
         gl.playerId === playerId &&
@@ -86,7 +86,11 @@ function getPreInjuryPPG(
     )
     .sort((a, b) => b.week - a.week)
     .slice(0, 4);
+}
 
+function getPreInjuryPPG(
+  priorGames: GameLog[]
+): number {
   if (priorGames.length < 2) return -1; // insufficient data
   return (
     priorGames.reduce((sum, gl) => sum + gl.fantasyPointsPPR, 0) /
@@ -168,12 +172,18 @@ export function findComparables(
         100
     );
 
-    const preInjuryPPG = getPreInjuryPPG(
+    const preInjuryGames = getPreInjuryGames(
       candidatePlayer.id,
       candidateInjury.seasonYear,
       candidateInjury.weekNumber,
       allGameLogs
     );
+
+    const preInjuryPPG = getPreInjuryPPG(preInjuryGames);
+
+    const preInjuryWeeklyPPG = preInjuryGames
+      .sort((a, b) => a.week - b.week)
+      .map((gl) => Math.round(gl.fantasyPointsPPR * 10) / 10);
 
     const postReturnPPG = getPostReturnPPG(
       candidatePlayer.id,
@@ -187,6 +197,7 @@ export function findComparables(
       injury: candidateInjury,
       matchScore,
       preInjuryPPG: preInjuryPPG === -1 ? 0 : Math.round(preInjuryPPG * 10) / 10,
+      preInjuryWeeklyPPG,
       postReturnPPG: postReturnPPG.map((v) => Math.round(v * 10) / 10),
       gamesMissed: candidateInjury.gamesMissed,
     });
