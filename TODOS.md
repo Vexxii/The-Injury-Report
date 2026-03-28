@@ -16,14 +16,6 @@
 
 ## Real Data Pipeline (nflverse)
 
-**What:** Replace synthetic seed data with real historical data from nflverse. Build a TypeScript script that downloads nflverse CSV files (player stats, injury reports) and converts them to the app's JSON format.
+**Completed:** v1.1.0.0 (2026-03-28)
 
-**Why:** The current dataset is entirely fabricated by a seeded random generator. Game logs have plausible but fake fantasy point numbers. Injury records are hand-authored. The comparables engine can't provide real value until it's running on actual historical performance data.
-
-**Pros:** Transforms the app from a demo into a real tool. Real data covers hundreds of players and thousands of injury events (2015-present), dramatically improving comparable quality and verdict accuracy.
-
-**Cons:** nflverse CSVs are large (game logs alone are 50MB+). Need to filter to skill positions (QB/RB/WR/TE) and map `report_primary_injury` text to our controlled body part taxonomy. No severity grades available (Grade 1/2/3), so the fallback weight table remains the primary algorithm.
-
-**Context:** The original plan called for Python + nfl-data-py, but Python isn't installed on this system. A TypeScript approach would use `fetch` to download CSVs from the nflverse GitHub releases, parse with a CSV library (e.g., `csv-parse`), normalize injury descriptions to our 12 body part categories, and output `players.json`, `injuries.json`, and `gamelogs.json`. A weekly `update.ts` script would append new data during NFL season. Alternatively, run the Python script on a different machine or in CI.
-
-**Blocked by:** Nothing. This is the highest-priority TODO for making the product real.
+Implemented as `scripts/seed.py` (Python + nfl-data-py). Fetches real NFL data from nflverse, deduplicates weekly injury reports into discrete events, and writes `players.json` (1,156 players), `injuries.json` (3,703 events), and `gamelogs.json` (47,456 game logs). Covers 2015-2024, all skill positions. No severity grades available, so the fallback weight table (body part 30%, position 30%, age 20%, workload 10%, era 10%) is the primary algorithm. Snap count data skipped due to ID join mismatch (workload dimension scores 0 for now, 10% weight).
