@@ -18,7 +18,7 @@
 - **UI/Labels:** DM Sans (same as body)
 - **Data/Tables:** JetBrains Mono — computed-feeling numbers, monospace match percentages and stats. Used for match percentages, stat values, data labels, injury pills, metadata.
 - **Code:** JetBrains Mono
-- **Loading:** Google Fonts via `next/font/google` (Instrument Serif, DM Sans, JetBrains Mono)
+- **Loading:** Instrument Serif via `next/font/local` (local TTF files in `src/fonts/`), DM Sans and JetBrains Mono via `next/font/google`
 - **Scale:**
   - `xs`: 11px / 0.6875rem — metadata, fine print
   - `sm`: 13px / 0.8125rem — labels, captions

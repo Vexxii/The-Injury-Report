@@ -14,12 +14,6 @@
 
 **Blocked by:** MVP validation. Only build if users ask for it.
 
-## Verdict-First Layout
-
-**Completed:** v1.2.0.0 (2026-03-28)
-
-Moved VerdictBox above PlayerCard in `src/app/page.tsx`. Results page now renders: SearchBar → InjuryPills → VerdictBox → PlayerCard → ComparableCards. Answer first, evidence second.
-
 ## Shareable Results
 
 **What:** Add a share button to results pages so users can send verdicts to leaguemates. Include OG meta tags for social previews.
@@ -34,13 +28,23 @@ Moved VerdictBox above PlayerCard in `src/app/page.tsx`. Results page now render
 
 **Blocked by:** Nothing. Ready to build.
 
-## Design System Documentation (DESIGN.md)
+---
+
+## Completed
+
+### Verdict-First Layout
+
+**Completed:** v1.2.0.0 (2026-03-28)
+
+Moved VerdictBox above PlayerCard in `src/app/page.tsx`. Results page now renders: SearchBar → InjuryPills → VerdictBox → PlayerCard → ComparableCards. Answer first, evidence second.
+
+### Design System Documentation (DESIGN.md)
 
 **Completed:** v1.2.0.0 (2026-03-28)
 
 Created DESIGN.md with full design system: Industrial/Utilitarian aesthetic, dark theme default (#111113), Instrument Serif (display), DM Sans (body), JetBrains Mono (data), burnt orange accent (#E8572A), verdict box treatment with 4px left border, spacing scale, motion specs, and anti-patterns. Based on competitive research (FantasyPros, Draft Sharks, SIC Score, Sleeper) and user observation findings.
 
-## Real Data Pipeline (nflverse)
+### Real Data Pipeline (nflverse)
 
 **Completed:** v1.1.0.0 (2026-03-28)
 
