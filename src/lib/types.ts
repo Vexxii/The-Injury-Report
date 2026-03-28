@@ -35,6 +35,7 @@ export interface ScoredComparable {
   injury: Injury;
   matchScore: number;
   preInjuryPPG: number;
+  preInjuryWeeklyPPG: number[];
   postReturnPPG: number[];
   gamesMissed: number;
 }

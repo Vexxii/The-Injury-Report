@@ -26,7 +26,7 @@ function makeComparable(overrides: Partial<ScoredComparable> = {}): ScoredCompar
       returnSeasonYear: 2024,
     } as Injury,
     matchScore: 80,
-    preInjuryPPG: 20,
+    preInjuryWeeklyPPG: [], preInjuryPPG: 20,
     postReturnPPG: [18, 19, 20, 21],
     gamesMissed: 2,
     ...overrides,
@@ -49,7 +49,7 @@ describe("getVerdict", () => {
       makeComparable({
         player: { ...makeComparable().player, id: `p${i}` },
         injury: { ...makeComparable().injury, id: `inj${i}`, playerId: `p${i}` },
-        preInjuryPPG: 20,
+        preInjuryWeeklyPPG: [], preInjuryPPG: 20,
         postReturnPPG: [18, 18, 20, 21], // avg 18 = 90% of 20
       })
     );
@@ -65,7 +65,7 @@ describe("getVerdict", () => {
       makeComparable({
         player: { ...makeComparable().player, id: `p${i}` },
         injury: { ...makeComparable().injury, id: `inj${i}`, playerId: `p${i}` },
-        preInjuryPPG: 20,
+        preInjuryWeeklyPPG: [], preInjuryPPG: 20,
         postReturnPPG: [15, 15, 18, 20], // avg 15 = 75% of 20
       })
     );
@@ -81,7 +81,7 @@ describe("getVerdict", () => {
       makeComparable({
         player: { ...makeComparable().player, id: `p${i}` },
         injury: { ...makeComparable().injury, id: `inj${i}`, playerId: `p${i}` },
-        preInjuryPPG: 20,
+        preInjuryWeeklyPPG: [], preInjuryPPG: 20,
         postReturnPPG: [10, 12, 14, 16], // avg 11 = 55% of 20
       })
     );
@@ -97,7 +97,7 @@ describe("getVerdict", () => {
       makeComparable({
         player: { ...makeComparable().player, id: `v${i}` },
         injury: { ...makeComparable().injury, id: `vinj${i}`, playerId: `v${i}` },
-        preInjuryPPG: 20,
+        preInjuryWeeklyPPG: [], preInjuryPPG: 20,
         postReturnPPG: [18, 19],
       })
     );
@@ -105,7 +105,7 @@ describe("getVerdict", () => {
       makeComparable({
         player: { ...makeComparable().player, id: `x${i}` },
         injury: { ...makeComparable().injury, id: `xinj${i}`, playerId: `x${i}` },
-        preInjuryPPG: 0,
+        preInjuryWeeklyPPG: [], preInjuryPPG: 0,
         postReturnPPG: [10, 12],
       })
     );
@@ -120,7 +120,7 @@ describe("getVerdict", () => {
       makeComparable({
         player: { ...makeComparable().player, id: `v${i}` },
         injury: { ...makeComparable().injury, id: `vinj${i}`, playerId: `v${i}` },
-        preInjuryPPG: 20,
+        preInjuryWeeklyPPG: [], preInjuryPPG: 20,
         postReturnPPG: [18, 19],
       })
     );
@@ -128,7 +128,7 @@ describe("getVerdict", () => {
       makeComparable({
         player: { ...makeComparable().player, id: `s${i}` },
         injury: { ...makeComparable().injury, id: `sinj${i}`, playerId: `s${i}` },
-        preInjuryPPG: 20,
+        preInjuryWeeklyPPG: [], preInjuryPPG: 20,
         postReturnPPG: [18], // only 1 post-return game
       })
     );
@@ -145,14 +145,14 @@ describe("getVerdict", () => {
       makeComparable({
         player: { ...makeComparable().player, id: `n${i}` },
         injury: { ...makeComparable().injury, id: `ninj${i}`, playerId: `n${i}` },
-        preInjuryPPG: 20,
+        preInjuryWeeklyPPG: [], preInjuryPPG: 20,
         postReturnPPG: [18, 18, 20, 21],
       })
     );
     const outlier = makeComparable({
       player: { ...makeComparable().player, id: "out" },
       injury: { ...makeComparable().injury, id: "outinj", playerId: "out" },
-      preInjuryPPG: 20,
+      preInjuryWeeklyPPG: [], preInjuryPPG: 20,
       postReturnPPG: [4, 4, 6, 8], // 20% recovery
     });
 

@@ -1,15 +1,18 @@
 interface PerformanceChartProps {
   preInjuryPPG: number;
+  preInjuryWeeklyPPG: number[];
   postReturnPPG: number[];
 }
 
 export default function PerformanceChart({
   preInjuryPPG,
+  preInjuryWeeklyPPG,
   postReturnPPG,
 }: PerformanceChartProps) {
   if (preInjuryPPG <= 0 || postReturnPPG.length === 0) return null;
 
-  const maxValue = Math.max(preInjuryPPG * 1.2, ...postReturnPPG);
+  const allValues = [...preInjuryWeeklyPPG, ...postReturnPPG];
+  const maxValue = Math.max(preInjuryPPG * 1.2, ...allValues);
   const barHeight = (value: number) =>
     Math.max(2, (value / maxValue) * 40);
 
@@ -20,21 +23,18 @@ export default function PerformanceChart({
     return "bg-red-300";
   }
 
-  // Show pre-injury baseline as 4 bars (simulating last 4 weeks)
-  const preWeeks = [0.9, 1.05, 0.95, 1.0].map((m) => preInjuryPPG * m);
-
   return (
     <div className="mt-2">
       <p className="text-xs text-gray-400 mb-1">
         Fantasy PPG: pre-injury → post-return
       </p>
       <div className="flex items-end gap-0.5 h-10">
-        {preWeeks.map((val, i) => (
+        {preInjuryWeeklyPPG.map((val, i) => (
           <div
             key={`pre-${i}`}
             className="w-5 bg-gray-300 rounded-t-sm"
             style={{ height: `${barHeight(val)}px` }}
-            title={`Pre-injury avg ~${Math.round(val * 10) / 10}`}
+            title={`Pre-injury Wk: ${val}`}
           />
         ))}
         <div className="w-2 flex items-center text-red-500 text-xs font-bold mx-0.5">
