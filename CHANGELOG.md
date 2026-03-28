@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0.1] - 2026-03-28
+
+### Fixed
+- CLAUDE.md: added missing `setup.ts` to project structure tree
+- DESIGN.md: corrected font loading description (Instrument Serif is local TTF, not Google Fonts)
+- TODOS.md: reorganized into Open and Completed sections for clarity
+
 ## [1.2.0.0] - 2026-03-28
 
 ### Added
