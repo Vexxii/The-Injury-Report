@@ -38,6 +38,7 @@ src/
     comparison.test.ts   — Comparison algorithm tests
     data.test.ts         — Data loading and search tests
     verdict.test.ts      — Verdict logic tests
+    setup.ts             — Test environment setup
 scripts/
   seed.py                — Python script to fetch nflverse data and generate JSON
   generate-gamelogs.ts   — Legacy TypeScript seed script (synthetic data)
