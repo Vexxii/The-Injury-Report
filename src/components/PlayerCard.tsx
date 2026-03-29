@@ -4,6 +4,7 @@ interface PlayerCardProps {
   player: Player;
   injury: Injury;
   comparables: ScoredComparable[];
+  totalComparables: number;
   isHypothetical?: boolean;
 }
 
@@ -72,6 +73,7 @@ export default function PlayerCard({
   player,
   injury,
   comparables,
+  totalComparables,
   isHypothetical,
 }: PlayerCardProps) {
   const avgDip = getAvgPostInjuryDip(comparables);
@@ -125,7 +127,7 @@ export default function PlayerCard({
           <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-text-muted">
             Comparables
           </p>
-          <p className="font-mono text-lg font-bold mt-1">{comparables.length}</p>
+          <p className="font-mono text-lg font-bold mt-1">{totalComparables}</p>
         </div>
         {isHypothetical ? (
           <div className="bg-surface-elevated rounded-lg p-3 text-center">

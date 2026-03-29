@@ -179,14 +179,14 @@ export default async function Home({ searchParams }: PageProps) {
               player={matchedPlayer}
               injury={syntheticInjury}
               comparables={topComparables}
+              totalComparables={comparables.length}
               isHypothetical
             />
 
             {topComparables.length > 0 && (
               <div>
                 <h3 className="font-mono text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-3">
-                  Comparable Cases ({comparables.length} found, showing top{" "}
-                  {topComparables.length})
+                  Top Comparables ({comparables.length} total)
                 </h3>
                 <div className="space-y-2">
                   {topComparables.map((comp, i) => (
@@ -319,13 +319,13 @@ export default async function Home({ searchParams }: PageProps) {
             player={matchedPlayer}
             injury={selectedInjury}
             comparables={topComparables}
+            totalComparables={comparables.length}
           />
 
           {topComparables.length > 0 && (
             <div>
               <h3 className="font-mono text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-3">
-                Comparable Cases ({comparables.length} found, showing top{" "}
-                {topComparables.length})
+                Top Comparables ({comparables.length} total)
               </h3>
               <div className="space-y-2">
                 {topComparables.map((comp, i) => (
