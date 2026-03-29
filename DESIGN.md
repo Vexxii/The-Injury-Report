@@ -79,7 +79,7 @@ Dark is the default. Light mode via `data-theme="light"` on `<html>`. All colors
 
 ## Layout
 - **Approach:** Single column, centered
-- **Grid:** Single column at all breakpoints. No sidebar, no nav, no tabs.
+- **Grid:** Single column at all breakpoints. No sidebar, no nav, no tabs. Segmented controls (e.g., History/What If mode toggle) are permitted as binary view-mode switchers within the single-column layout — styled as two pills inside a `bg-surface border border-border-custom rounded-lg p-1` container with `bg-surface-elevated` active state.
 - **Max content width:** 640px
 - **Border radius:**
   - `sm`: 4px — bar chart bars, small UI elements
@@ -134,3 +134,4 @@ The verdict box is the core value prop. It gets special visual treatment:
 | 2026-03-28 | Instrument Serif for display | Every competitor uses sans-serif everything. Serif headlines create editorial authority |
 | 2026-03-28 | Burnt orange accent (#E8572A) | Competitors converge on blue/green. Orange stands out, evokes hazard signage (fitting for injuries), avoids generic sports aesthetic |
 | 2026-03-28 | Verdict box with heavy left border | The verdict is a ruling, not a suggestion. Visual weight matches its importance as the #1 user value prop |
+| 2026-03-29 | Segmented control permitted in Layout | "No tabs" means no tab bar navigating between separate views. Segmented controls (binary mode toggles within a single view) are allowed. Added for What If mode toggle. |

@@ -6,10 +6,13 @@ Built for competitive fantasy managers in money leagues who want real answers, n
 
 ## How It Works
 
-1. Search a player name
-2. Select an injury from their history
-3. See ranked comparables: players who had the same injury at a similar age and position
-4. Get a verdict: **HOLD**, **MONITOR**, or **CONSIDER SELLING** based on how comparable players actually performed after returning
+**Injury History mode:** Search a player, select an injury from their history, see ranked comparables and a verdict.
+
+**What If mode:** Search a player, pick a body part ("What if Chase gets a hamstring injury?"), and instantly see how comparable injuries played out historically. No need to wait for official injury reports.
+
+In both modes you get:
+- Ranked comparables: players who had the same injury at a similar age and position
+- A verdict: **HOLD**, **MONITOR**, or **CONSIDER SELLING** based on how comparable players actually performed after returning
 
 ## Data
 
@@ -46,7 +49,7 @@ This fetches fresh data from nflverse and writes to `src/data/`. Takes about 12 
 - Next.js 16 (App Router, Server Components)
 - TypeScript
 - Tailwind CSS
-- Vitest (31 tests)
+- Vitest (52 tests)
 - Vercel free tier for deployment
 
 ## Design
