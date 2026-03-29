@@ -19,7 +19,7 @@ src/
   components/           — UI components
     SearchBar.tsx        — Client component, autocomplete search
     PlayerCard.tsx       — Player info + injury badge + headline stats
-    ComparableCard.tsx   — Single comparable with performance chart
+    ComparableCard.tsx   — Single comparable with match breakdown, chart, recovery %
     VerdictBox.tsx       — Hold/Monitor/Sell recommendation (verdict-first layout)
     PerformanceChart.tsx — Mini bar chart (pre vs post injury)
     ModeToggle.tsx       — Client component, History/What If segmented control
@@ -28,7 +28,7 @@ src/
     InstrumentSerif-Regular.ttf
     InstrumentSerif-Italic.ttf
   lib/
-    types.ts             — Core TypeScript interfaces
+    types.ts             — Core TypeScript interfaces (incl. MatchBreakdown)
     data.ts              — JSON data loading, search, NFL week calc, body part utils
     comparison.ts        — Comparison algorithm (pure function)
     verdict.ts           — Verdict logic (pure function)

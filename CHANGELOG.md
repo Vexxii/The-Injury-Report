@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0.1] - 2026-03-29
+
+### Improved
+- Match badges now say "97% match" instead of just "97%", so you know what the number means at a glance
+- Each comparable card shows its recovery % vs pre-injury baseline ("107% of baseline in first 2 weeks"), color-coded green/amber/red
+- Color-coded match breakdown on every comparable: why it matched (same body part, same position, similar age, recent era) or why it didn't
+- VerdictBox label clarified: "87% median recovery vs. pre-injury baseline" instead of "87% of baseline"
+- Section heading simplified from "Comparable Cases (381 found, showing top 10)" to "Top Comparables (381 total)"
+
+### Fixed
+- PlayerCard "Comparables" stat box showed 10 (the display cap) instead of the actual total count
+
 ## [1.3.0.0] - 2026-03-29
 
 ### Added
