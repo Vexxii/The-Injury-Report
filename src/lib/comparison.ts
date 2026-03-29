@@ -196,6 +196,13 @@ export function findComparables(
       player: candidatePlayer,
       injury: candidateInjury,
       matchScore,
+      matchBreakdown: {
+        injuryType: injuryScore,
+        position: positionScore,
+        age: ageScore,
+        workload: workloadScore,
+        era: eraScore,
+      },
       preInjuryPPG: preInjuryPPG === -1 ? 0 : Math.round(preInjuryPPG * 10) / 10,
       preInjuryWeeklyPPG,
       postReturnPPG: postReturnPPG.map((v) => Math.round(v * 10) / 10),

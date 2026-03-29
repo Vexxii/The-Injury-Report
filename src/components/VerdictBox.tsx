@@ -86,7 +86,7 @@ export default function VerdictBox({
       </h3>
       {verdict.medianRecoveryPct !== null && (
         <p className={`font-mono text-sm font-medium ${style.text} mb-3`}>
-          {verdict.medianRecoveryPct}% of baseline
+          {verdict.medianRecoveryPct}% median recovery vs. pre-injury baseline
         </p>
       )}
       <p className="text-sm text-foreground leading-relaxed">{message}</p>

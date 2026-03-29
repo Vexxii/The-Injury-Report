@@ -30,10 +30,19 @@ export interface GameLog {
   receptions: number;
 }
 
+export interface MatchBreakdown {
+  injuryType: number; // 0 or 1
+  position: number;   // 0 or 1
+  age: number;        // 0-1
+  workload: number;   // 0-1
+  era: number;        // 0.3, 0.6, or 1
+}
+
 export interface ScoredComparable {
   player: Player;
   injury: Injury;
   matchScore: number;
+  matchBreakdown: MatchBreakdown;
   preInjuryPPG: number;
   preInjuryWeeklyPPG: number[];
   postReturnPPG: number[];
