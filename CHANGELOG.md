@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0.0] - 2026-03-29
+
+### Added
+- **What If mode**: explore hypothetical injuries before official reports drop. Search any player, pick a body part, and instantly see historical comparables and a verdict. Shareable via `?player=X&whatif=bodypart` URLs.
+- Mode toggle (History / What If) appears on every player results page
+- Body part picker with frequency counts across 12 injury types (e.g., "Hamstring 579 cases")
+- Hypothetical scenario badge and conditional verdict messaging ("If Ja'Marr Chase sustains a hamstring injury...")
+- Position-specific default body parts: the What If link auto-selects the most common injury for each position
+- `getCurrentNFLWeek()` utility for accurate season/week detection year-round
+- 21 new tests covering NFL week calculation, body part utilities, and What If integration with real data
+
+### Changed
+- Comparable cards now filtered to only show entries with outcome data (pre-injury baseline + post-return performance). No more chart-less cards taking up slots.
+- PlayerCard shows info-blue "Scenario" badge and stat box in What If mode instead of red injury status
+- VerdictBox renders position-specific meta line in What If mode ("Based on N comparable hamstring cases for WRs")
+- DESIGN.md updated to permit segmented controls in the single-column layout
+
 ## [1.2.0.1] - 2026-03-28
 
 ### Fixed

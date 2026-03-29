@@ -28,9 +28,27 @@
 
 **Blocked by:** Nothing. Ready to build.
 
+## CURRENT_SEASON Stale Constant
+
+**What:** Replace the module-level `CURRENT_SEASON = new Date().getFullYear()` in `src/lib/comparison.ts:16` with a per-request value.
+
+**Why:** The module-level constant is evaluated once on first import and cached for the lifetime of the server process. If the server starts in December 2025 and runs into January 2026, era scoring uses stale 2025 as "current." The new `getCurrentNFLWeek()` in `lib/data.ts` already computes the correct season dynamically per-request, but `comparison.ts` doesn't use it yet.
+
+**Pros:** Eliminates a subtle scoring drift that compounds each year. Small change, high correctness impact.
+
+**Cons:** Requires threading `currentSeason` through `findComparables()` or importing `getCurrentNFLWeek()` into `comparison.ts`. Minor API change.
+
+**Blocked by:** Nothing. Ready to fix.
+
 ---
 
 ## Completed
+
+### What If Mode — Hypothetical Injury Lookup
+
+**Completed:** 2026-03-29
+
+Added "What If" mode so users can construct hypothetical injuries (player + body part) and instantly see historical comparables and a verdict. New URL scheme: `?player=X&whatif=bodypart`. New components: ModeToggle (History/What If segmented control), BodyPartPicker (12 body parts with frequency counts), hypothetical badge. Modified VerdictBox and PlayerCard for conditional hypothetical messaging. Added `getCurrentNFLWeek()`, `getBodyPartsWithCounts()`, `getDefaultBodyPartForPosition()` utilities. Comparable cards now filtered to only show entries with outcome data (chart + recovery). 21 new tests.
 
 ### Verdict-First Layout
 

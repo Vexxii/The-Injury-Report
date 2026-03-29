@@ -1,6 +1,6 @@
 # The Injury Report
 
-Fantasy football injury comparables engine. Search any NFL player + injury, get ranked historical comparables with recovery timelines and a hold/sell verdict.
+Fantasy football injury comparables engine. Search any NFL player + injury, get ranked historical comparables with recovery timelines and a hold/sell verdict. Supports "What If" mode for hypothetical injuries (`?player=X&whatif=bodypart`).
 
 ## Tech Stack
 
@@ -22,12 +22,14 @@ src/
     ComparableCard.tsx   — Single comparable with performance chart
     VerdictBox.tsx       — Hold/Monitor/Sell recommendation (verdict-first layout)
     PerformanceChart.tsx — Mini bar chart (pre vs post injury)
+    ModeToggle.tsx       — Client component, History/What If segmented control
+    BodyPartPicker.tsx   — Client component, body part pill picker with counts
   fonts/
     InstrumentSerif-Regular.ttf
     InstrumentSerif-Italic.ttf
   lib/
     types.ts             — Core TypeScript interfaces
-    data.ts              — JSON data loading with module-level cache
+    data.ts              — JSON data loading, search, NFL week calc, body part utils
     comparison.ts        — Comparison algorithm (pure function)
     verdict.ts           — Verdict logic (pure function)
   data/
@@ -36,8 +38,9 @@ src/
     gamelogs.json        — ~47,000 weekly game logs (real PPR stats)
   __tests__/
     comparison.test.ts   — Comparison algorithm tests
-    data.test.ts         — Data loading and search tests
+    data.test.ts         — Data loading, search, NFL week, body part tests
     verdict.test.ts      — Verdict logic tests
+    whatif.test.ts       — What If mode: synthetic injury + real data integration
     setup.ts             — Test environment setup
 scripts/
   seed.py                — Python script to fetch nflverse data and generate JSON
