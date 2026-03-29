@@ -1,13 +1,25 @@
-import { loadData, findPlayerByName, searchPlayers, getPlayerInjuries } from "@/lib/data";
+import { Suspense } from "react";
+import {
+  loadData,
+  findPlayerByName,
+  searchPlayers,
+  getPlayerInjuries,
+  getCurrentNFLWeek,
+  getBodyPartsWithCounts,
+  getDefaultBodyPartForPosition,
+} from "@/lib/data";
 import { findComparables } from "@/lib/comparison";
 import { getVerdict } from "@/lib/verdict";
+import type { Injury } from "@/lib/types";
 import SearchBar from "@/components/SearchBar";
 import PlayerCard from "@/components/PlayerCard";
 import ComparableCard from "@/components/ComparableCard";
 import VerdictBox from "@/components/VerdictBox";
+import ModeToggle from "@/components/ModeToggle";
+import BodyPartPicker from "@/components/BodyPartPicker";
 
 interface PageProps {
-  searchParams: Promise<{ player?: string; injury?: string }>;
+  searchParams: Promise<{ player?: string; injury?: string; whatif?: string }>;
 }
 
 export default async function Home({ searchParams }: PageProps) {
@@ -83,7 +95,126 @@ export default async function Home({ searchParams }: PageProps) {
     );
   }
 
-  // Get player injuries
+  // Determine mode
+  const isWhatIf = "whatif" in params;
+  const defaultBodyPart = getDefaultBodyPartForPosition(
+    matchedPlayer.position,
+    injuries,
+    players
+  );
+
+  // What If mode
+  if (isWhatIf) {
+    const selectedBodyPart = params.whatif?.trim() || defaultBodyPart;
+    const bodyPartsWithCounts = getBodyPartsWithCounts(injuries);
+
+    // Construct synthetic injury
+    const { season, week } = getCurrentNFLWeek();
+    const syntheticInjury: Injury = {
+      id: "hypothetical",
+      playerId: matchedPlayer.id,
+      bodyPart: selectedBodyPart,
+      reportStatus: "Unknown",
+      practiceStatus: "Unknown",
+      gamesMissed: 0,
+      seasonYear: season,
+      weekNumber: week,
+      returnWeek: null,
+      returnSeasonYear: null,
+    };
+
+    const allComparables = findComparables(
+      matchedPlayer,
+      syntheticInjury,
+      players,
+      injuries,
+      gameLogs
+    );
+    const comparables = allComparables.filter(
+      (c) => c.preInjuryPPG > 0 && c.postReturnPPG.length >= 2
+    );
+    const verdict = getVerdict(allComparables);
+    const topComparables = comparables.slice(0, 10);
+
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="max-w-[640px] mx-auto px-4 py-12">
+          <div className="text-center mb-8">
+            <h1 className="font-display text-2xl text-foreground mb-2">
+              The Injury Report
+            </h1>
+          </div>
+          <SearchBar players={players} />
+
+          <div className="mt-8 space-y-4">
+            <Suspense fallback={null}>
+              <ModeToggle
+                playerName={matchedPlayer.name}
+                defaultBodyPart={defaultBodyPart}
+              />
+            </Suspense>
+
+            <BodyPartPicker
+              playerName={matchedPlayer.name}
+              bodyParts={bodyPartsWithCounts}
+              selected={selectedBodyPart}
+            />
+
+            {/* Hypothetical badge */}
+            <div className="flex">
+              <span className="inline-flex items-center font-mono text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-full text-info bg-info/[0.08] border border-info/25">
+                Hypothetical scenario
+              </span>
+            </div>
+
+            <VerdictBox
+              verdict={verdict}
+              isHypothetical
+              playerName={matchedPlayer.name}
+              bodyPart={selectedBodyPart}
+              playerPosition={matchedPlayer.position}
+            />
+
+            <PlayerCard
+              player={matchedPlayer}
+              injury={syntheticInjury}
+              comparables={topComparables}
+              isHypothetical
+            />
+
+            {topComparables.length > 0 && (
+              <div>
+                <h3 className="font-mono text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-3">
+                  Comparable Cases ({comparables.length} found, showing top{" "}
+                  {topComparables.length})
+                </h3>
+                <div className="space-y-2">
+                  {topComparables.map((comp, i) => (
+                    <ComparableCard
+                      key={comp.injury.id}
+                      comparable={comp}
+                      rank={i + 1}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {topComparables.length === 0 && (
+              <div className="bg-surface border border-border-custom rounded-xl p-5 text-center">
+                <p className="text-text-muted">
+                  No comparable {selectedBodyPart} injuries found for{" "}
+                  {matchedPlayer.position}s in our database.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // History mode (existing behavior)
   const playerInjuries = getPlayerInjuries(injuries, matchedPlayer.id);
 
   if (playerInjuries.length === 0) {
@@ -96,7 +227,15 @@ export default async function Home({ searchParams }: PageProps) {
             </h1>
           </div>
           <SearchBar players={players} />
-          <div className="mt-8">
+
+          <div className="mt-8 space-y-4">
+            <Suspense fallback={null}>
+              <ModeToggle
+                playerName={matchedPlayer.name}
+                defaultBodyPart={defaultBodyPart}
+              />
+            </Suspense>
+
             <div className="bg-surface border border-border-custom rounded-xl p-5 text-center">
               <h2 className="font-display text-xl">{matchedPlayer.name}</h2>
               <p className="font-mono text-xs text-text-muted mt-1">
@@ -117,16 +256,19 @@ export default async function Home({ searchParams }: PageProps) {
     playerInjuries[Math.min(injuryIndex, playerInjuries.length - 1)];
 
   // Run comparison algorithm
-  const comparables = findComparables(
+  const allComparables = findComparables(
     matchedPlayer,
     selectedInjury,
     players,
     injuries,
     gameLogs
   );
+  const comparables = allComparables.filter(
+    (c) => c.preInjuryPPG > 0 && c.postReturnPPG.length >= 2
+  );
 
   // Get verdict
-  const verdict = getVerdict(comparables);
+  const verdict = getVerdict(allComparables);
 
   // Top comparables (show up to 10)
   const topComparables = comparables.slice(0, 10);
@@ -142,6 +284,13 @@ export default async function Home({ searchParams }: PageProps) {
         <SearchBar players={players} />
 
         <div className="mt-8 space-y-4">
+          <Suspense fallback={null}>
+            <ModeToggle
+              playerName={matchedPlayer.name}
+              defaultBodyPart={defaultBodyPart}
+            />
+          </Suspense>
+
           {/* Injury selector if multiple injuries */}
           {playerInjuries.length > 1 && (
             <nav aria-label="Injury history" className="flex gap-2 flex-wrap">

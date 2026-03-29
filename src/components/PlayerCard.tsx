@@ -4,6 +4,7 @@ interface PlayerCardProps {
   player: Player;
   injury: Injury;
   comparables: ScoredComparable[];
+  isHypothetical?: boolean;
 }
 
 const BODY_PART_LABELS: Record<string, string> = {
@@ -71,17 +72,24 @@ export default function PlayerCard({
   player,
   injury,
   comparables,
+  isHypothetical,
 }: PlayerCardProps) {
   const avgDip = getAvgPostInjuryDip(comparables);
   const recoveryBy = getAvgRecoveryWeeks(comparables);
-  const avgMissed =
+
+  // For hypothetical, only use avg from comparables (never fall back to synthetic injury.gamesMissed = 0)
+  const avgMissedFromComps =
     comparables.length > 0
       ? Math.round(
           (comparables.reduce((s, c) => s + c.gamesMissed, 0) /
             comparables.length) *
             10
         ) / 10
-      : injury.gamesMissed;
+      : null;
+
+  const avgMissed = isHypothetical
+    ? (avgMissedFromComps ?? "N/A")
+    : (avgMissedFromComps ?? injury.gamesMissed);
 
   return (
     <div className="bg-surface border border-border-custom rounded-xl p-5">
@@ -93,9 +101,15 @@ export default function PlayerCard({
             {injury.seasonYear - new Date(player.birthDate).getFullYear()}
           </p>
         </div>
-        <span className="self-start bg-red-bg border border-red-border text-red font-mono text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">
-          {formatBodyPart(injury.bodyPart)} · {injury.reportStatus}
-        </span>
+        {isHypothetical ? (
+          <span className="self-start bg-info/[0.08] border border-info/25 text-info font-mono text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">
+            {formatBodyPart(injury.bodyPart)}
+          </span>
+        ) : (
+          <span className="self-start bg-red-bg border border-red-border text-red font-mono text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">
+            {formatBodyPart(injury.bodyPart)} · {injury.reportStatus}
+          </span>
+        )}
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -113,14 +127,25 @@ export default function PlayerCard({
           </p>
           <p className="font-mono text-lg font-bold mt-1">{comparables.length}</p>
         </div>
-        <div className="bg-surface-elevated rounded-lg p-3 text-center">
-          <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-text-muted">
-            Post-Inj (Wk 1-2)
-          </p>
-          <p className={`font-mono text-lg font-bold mt-1 ${dipColor(avgDip)}`}>
-            {avgDip}
-          </p>
-        </div>
+        {isHypothetical ? (
+          <div className="bg-surface-elevated rounded-lg p-3 text-center">
+            <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-text-muted">
+              Scenario
+            </p>
+            <p className="font-mono text-lg font-bold mt-1 text-info">
+              {formatBodyPart(injury.bodyPart)}
+            </p>
+          </div>
+        ) : (
+          <div className="bg-surface-elevated rounded-lg p-3 text-center">
+            <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-text-muted">
+              Post-Inj (Wk 1-2)
+            </p>
+            <p className={`font-mono text-lg font-bold mt-1 ${dipColor(avgDip)}`}>
+              {avgDip}
+            </p>
+          </div>
+        )}
         <div className="bg-surface-elevated rounded-lg p-3 text-center">
           <p className="font-mono text-[9px] font-semibold uppercase tracking-wider text-text-muted">
             Recovery By

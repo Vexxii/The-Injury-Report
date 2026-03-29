@@ -2,6 +2,10 @@ import type { Verdict } from "@/lib/types";
 
 interface VerdictBoxProps {
   verdict: Verdict;
+  isHypothetical?: boolean;
+  playerName?: string;
+  bodyPart?: string;
+  playerPosition?: string;
 }
 
 const VERDICT_STYLES: Record<
@@ -28,7 +32,13 @@ const VERDICT_STYLES: Record<
   },
 };
 
-export default function VerdictBox({ verdict }: VerdictBoxProps) {
+export default function VerdictBox({
+  verdict,
+  isHypothetical,
+  playerName,
+  bodyPart,
+  playerPosition,
+}: VerdictBoxProps) {
   if (verdict.type === null) {
     return (
       <div className="animate-verdict bg-surface border border-border-custom rounded-xl p-6">
@@ -38,12 +48,26 @@ export default function VerdictBox({ verdict }: VerdictBoxProps) {
         <h3 className="font-mono text-xl font-bold text-text-muted mb-3">
           Insufficient Data
         </h3>
-        <p className="text-sm text-text-muted">{verdict.message}</p>
+        <p className="text-sm text-text-muted">
+          {isHypothetical && playerName && bodyPart
+            ? `Not enough comparable ${bodyPart} injuries found for ${playerPosition ?? "this position"}s to generate a verdict.`
+            : verdict.message}
+        </p>
       </div>
     );
   }
 
   const style = VERDICT_STYLES[verdict.type];
+
+  const message =
+    isHypothetical && playerName && bodyPart
+      ? `If ${playerName} sustains a ${bodyPart} injury, ${verdict.message.charAt(0).toLowerCase()}${verdict.message.slice(1)}`
+      : verdict.message;
+
+  const metaLine =
+    isHypothetical && bodyPart && playerPosition
+      ? `Based on ${verdict.comparablesUsed} comparable ${bodyPart} cases for ${playerPosition}s`
+      : `Based on ${verdict.comparablesUsed} comparable cases`;
 
   return (
     <div
@@ -65,10 +89,8 @@ export default function VerdictBox({ verdict }: VerdictBoxProps) {
           {verdict.medianRecoveryPct}% of baseline
         </p>
       )}
-      <p className="text-sm text-foreground leading-relaxed">{verdict.message}</p>
-      <p className="font-mono text-xs text-text-muted mt-3">
-        Based on {verdict.comparablesUsed} comparable cases
-      </p>
+      <p className="text-sm text-foreground leading-relaxed">{message}</p>
+      <p className="font-mono text-xs text-text-muted mt-3">{metaLine}</p>
     </div>
   );
 }
