@@ -1,6 +1,7 @@
-import type { ScoredComparable, Verdict } from "./types";
+import type { ScoredComparable, Verdict, AbsenceSeverity } from "./types";
 
 const MIN_COMPARABLES = 5;
+const MIN_GAMES_MISSED_COMPARABLES = 3;
 const HOLD_THRESHOLD = 0.85;
 const MONITOR_THRESHOLD = 0.70;
 
@@ -14,18 +15,40 @@ function median(values: number[]): number {
   return sorted[mid];
 }
 
+function getAbsenceSeverity(medianGamesMissed: number): AbsenceSeverity {
+  if (medianGamesMissed <= 2) return "SHORT";
+  if (medianGamesMissed <= 5) return "MODERATE";
+  return "EXTENDED";
+}
+
 export function getVerdict(comparables: ScoredComparable[]): Verdict {
-  // Filter out comparables with insufficient baseline data
+  // Filter A (strict): recovery population
   const valid = comparables.filter(
     (c) => c.preInjuryPPG > 0 && c.postReturnPPG.length >= 2
   );
+
+  // Filter B (broad): games missed population
+  const gamesMissedComps = comparables.filter((c) => c.gamesMissed > 0);
+  const medianGamesMissed =
+    gamesMissedComps.length >= MIN_GAMES_MISSED_COMPARABLES
+      ? Math.round(median(gamesMissedComps.map((c) => c.gamesMissed)) * 10) / 10
+      : null;
+  const absenceSeverity =
+    medianGamesMissed !== null ? getAbsenceSeverity(medianGamesMissed) : null;
+
+  const absenceText =
+    medianGamesMissed !== null
+      ? ` Expected absence: ~${medianGamesMissed} games.`
+      : "";
 
   if (valid.length < MIN_COMPARABLES) {
     return {
       type: null,
       medianRecoveryPct: null,
+      medianGamesMissed,
+      absenceSeverity,
       comparablesUsed: valid.length,
-      message: `Not enough data for a reliable recommendation (${valid.length} comparable${valid.length === 1 ? "" : "s"} found, minimum ${MIN_COMPARABLES} needed).`,
+      message: `Not enough data for a reliable recommendation (${valid.length} comparable${valid.length === 1 ? "" : "s"} found, minimum ${MIN_COMPARABLES} needed).${absenceText}`,
     };
   }
 
@@ -39,17 +62,15 @@ export function getVerdict(comparables: ScoredComparable[]): Verdict {
 
   const medianPct = median(recoveryPcts);
   const medianRounded = Math.round(medianPct * 100);
-  const avgGamesMissed =
-    Math.round(
-      (valid.reduce((sum, c) => sum + c.gamesMissed, 0) / valid.length) * 10
-    ) / 10;
 
   if (medianPct > HOLD_THRESHOLD) {
     return {
       type: "HOLD",
       medianRecoveryPct: medianRounded,
+      medianGamesMissed,
+      absenceSeverity,
       comparablesUsed: valid.length,
-      message: `History says this player bounces back quickly. Across ${valid.length} comparable cases, the median player returned to ${medianRounded}% of their pre-injury fantasy output within 2 weeks. Average games missed: ${avgGamesMissed}.`,
+      message: `History says this player bounces back quickly. Across ${valid.length} comparable cases, the median player returned to ${medianRounded}% of their pre-injury fantasy output within 2 weeks.${absenceText}`,
     };
   }
 
@@ -57,15 +78,19 @@ export function getVerdict(comparables: ScoredComparable[]): Verdict {
     return {
       type: "MONITOR",
       medianRecoveryPct: medianRounded,
+      medianGamesMissed,
+      absenceSeverity,
       comparablesUsed: valid.length,
-      message: `Recovery is typical but not guaranteed. Across ${valid.length} comparable cases, the median player returned to ${medianRounded}% of baseline within 2 weeks. Watch week 1 performance closely. Average games missed: ${avgGamesMissed}.`,
+      message: `Recovery is typical but not guaranteed. Across ${valid.length} comparable cases, the median player returned to ${medianRounded}% of baseline within 2 weeks.${absenceText} Watch week 1 performance closely.`,
     };
   }
 
   return {
     type: "CONSIDER_SELLING",
     medianRecoveryPct: medianRounded,
+    medianGamesMissed,
+    absenceSeverity,
     comparablesUsed: valid.length,
-    message: `Comparable players struggled significantly after this injury. Across ${valid.length} comparable cases, the median player returned to only ${medianRounded}% of baseline within 2 weeks. Average games missed: ${avgGamesMissed}.`,
+    message: `Comparable players struggled significantly after this injury. Across ${valid.length} comparable cases, the median player returned to only ${medianRounded}% of baseline within 2 weeks.${absenceText}`,
   };
 }

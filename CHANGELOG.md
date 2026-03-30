@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0.0] - 2026-03-29
+
+### Added
+- **Two-dimensional verdict**: games missed + absence severity alongside recovery %. Verdict box now shows median games missed and a severity label (SHORT / MODERATE / EXTENDED) as a pill badge opposite the verdict word.
+- Broader filter for games missed: includes players who never returned from injury, giving more accurate absence estimates.
+- Games missed signal displays even when recovery data is insufficient for a verdict type.
+- 18 verdict tests covering severity boundaries, null cascades, and broad vs strict filter logic.
+
+### Improved
+- VerdictBox body text corrected to 14px per DESIGN.md (was 13px)
+- Removed duplicate "Expected absence" text from verdict message when severity pill is visible
+- Severity label left-aligned in insufficient data state (was incorrectly right-aligned)
+
 ## [1.3.0.1] - 2026-03-29
 
 ### Improved
