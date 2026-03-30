@@ -114,7 +114,11 @@ The verdict box is the core value prop. It gets special visual treatment:
 - "Verdict" label above in JetBrains Mono, 10px, uppercase, tracking
 - Recovery percentage below verdict word
 - Body text in DM Sans, 14px
-- Meta line ("Based on N comparable cases") in JetBrains Mono, 11px, muted
+- Meta line ("Based on N comparable cases") in JetBrains Mono, 12px, muted
+- Absence severity pill: right-aligned opposite verdict word, JetBrains Mono 10px semibold uppercase, rounded-full, uses same semantic color as severity (green=SHORT, amber=MODERATE, red=EXTENDED), 8% bg tint, 25% border opacity
+- Games missed stat: JetBrains Mono, 11px, muted, below severity pill
+- Layout: `flex items-start justify-between gap-4 flex-wrap` for verdict word + severity pill
+- Insufficient data state: severity pill left-aligned below a border-t divider when games missed data is available but recovery data is insufficient
 
 ## Anti-Patterns (never use)
 - Purple/violet gradients
@@ -135,3 +139,4 @@ The verdict box is the core value prop. It gets special visual treatment:
 | 2026-03-28 | Burnt orange accent (#E8572A) | Competitors converge on blue/green. Orange stands out, evokes hazard signage (fitting for injuries), avoids generic sports aesthetic |
 | 2026-03-28 | Verdict box with heavy left border | The verdict is a ruling, not a suggestion. Visual weight matches its importance as the #1 user value prop |
 | 2026-03-29 | Segmented control permitted in Layout | "No tabs" means no tab bar navigating between separate views. Segmented controls (binary mode toggles within a single view) are allowed. Added for What If mode toggle. |
+| 2026-03-29 | Severity pill in verdict box | Two-dimensional verdict: recovery quality on left, time cost on right. Pill reuses semantic colors (green/amber/red) for absence severity. Right-aligned to create visual balance with verdict word. |

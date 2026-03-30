@@ -51,9 +51,13 @@ export interface ScoredComparable {
 
 export type VerdictType = "HOLD" | "MONITOR" | "CONSIDER_SELLING";
 
+export type AbsenceSeverity = "SHORT" | "MODERATE" | "EXTENDED";
+
 export interface Verdict {
   type: VerdictType | null;
   medianRecoveryPct: number | null;
+  medianGamesMissed: number | null;
+  absenceSeverity: AbsenceSeverity | null;
   comparablesUsed: number;
   message: string;
 }

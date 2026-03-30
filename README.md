@@ -13,6 +13,7 @@ Built for competitive fantasy managers in money leagues who want real answers, n
 In both modes you get:
 - Ranked comparables: players who had the same injury at a similar age and position
 - A verdict: **HOLD**, **MONITOR**, or **CONSIDER SELLING** based on how comparable players actually performed after returning
+- Expected absence: median games missed with severity label (SHORT / MODERATE / EXTENDED)
 
 ## Data
 
@@ -49,7 +50,7 @@ This fetches fresh data from nflverse and writes to `src/data/`. Takes about 12 
 - Next.js 16 (App Router, Server Components)
 - TypeScript
 - Tailwind CSS
-- Vitest (52 tests)
+- Vitest (64 tests)
 - Vercel free tier for deployment
 
 ## Design
@@ -74,6 +75,8 @@ Verdict is based on median post-return fantasy PPG across comparables vs pre-inj
 - **CONSIDER SELLING** (<70%): Comparable players struggled after this injury
 
 Minimum 5 valid comparables required for a verdict.
+
+The verdict also shows median games missed (from a broader pool including players who never returned) with a severity label: **SHORT** (1-2 games), **MODERATE** (3-5), **EXTENDED** (6+).
 
 ## Tests
 

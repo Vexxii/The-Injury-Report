@@ -20,7 +20,7 @@ src/
     SearchBar.tsx        — Client component, autocomplete search
     PlayerCard.tsx       — Player info + injury badge + headline stats
     ComparableCard.tsx   — Single comparable with match breakdown, chart, recovery %
-    VerdictBox.tsx       — Hold/Monitor/Sell recommendation (verdict-first layout)
+    VerdictBox.tsx       — Hold/Monitor/Sell verdict + absence severity pill (verdict-first layout)
     PerformanceChart.tsx — Mini bar chart (pre vs post injury)
     ModeToggle.tsx       — Client component, History/What If segmented control
     BodyPartPicker.tsx   — Client component, body part pill picker with counts
@@ -28,7 +28,7 @@ src/
     InstrumentSerif-Regular.ttf
     InstrumentSerif-Italic.ttf
   lib/
-    types.ts             — Core TypeScript interfaces (incl. MatchBreakdown)
+    types.ts             — Core TypeScript interfaces (incl. MatchBreakdown, AbsenceSeverity, Verdict)
     data.ts              — JSON data loading, search, NFL week calc, body part utils
     comparison.ts        — Comparison algorithm (pure function)
     verdict.ts           — Verdict logic (pure function)
@@ -77,6 +77,11 @@ Verdict thresholds (median weeks 1-2 recovery % of baseline):
 - MONITOR: 70-85%
 - CONSIDER_SELLING: <70%
 - Minimum 5 valid comparables required
+
+Two-dimensional verdict: recovery % + median games missed
+- Games missed uses broader filter (gamesMissed > 0, min 3 comps, includes never-returned players)
+- Absence severity: SHORT (1-2 games), MODERATE (3-5), EXTENDED (6+)
+- Games missed signal shown even when recovery data is insufficient
 
 ## Design System
 Always read DESIGN.md before making any visual or UI decisions.
